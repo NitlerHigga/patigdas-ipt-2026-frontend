@@ -1,12 +1,13 @@
+import { __decorate } from 'tslib';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first, finalize } from 'rxjs/operators'; // 🌟 Added finalize
+import { first } from 'rxjs/operators';
 
 import { AccountService, AlertService } from '@app/_services';
 import { MustMatch } from '@app/_helpers';
 
-@Component({ standalone: false, templateUrl: 'register.component.html' })
+@Component({ templateUrl: 'register.component.html', standalone: false })
 export class RegisterComponent implements OnInit {
     form!: FormGroup;
     submitting = false;
@@ -28,15 +29,15 @@ export class RegisterComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]],
             confirmPassword: ['', Validators.required],
-            acceptTerms: [false, Validators.requiredTrue] // Pure boolean initialization
+            acceptTerms: [false, Validators.requiredTrue]
         }, {
             validator: MustMatch('password', 'confirmPassword')
         });
     }
 
-    // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
 
+    
     onSubmit() {
         this.submitted = true;
 
@@ -50,21 +51,15 @@ export class RegisterComponent implements OnInit {
 
         this.submitting = true;
         this.accountService.register(this.form.value)
-            .pipe(
-                first(),
-                finalize(() => {
-                    // 🌟 THIS WILL ALWAYS RUN: Safely turns off the loading loop on any response
-                    this.submitting = false;
-                })
-            )
+            .pipe(first())
             .subscribe({
                 next: () => {
                     this.alertService.success('Registration successful, please check your email for verification instructions', { keepAfterRouteChange: true });
-                    // Use absolute navigation to avoid route relative context issues
-                    this.router.navigate(['/account/login']); 
+                    this.router.navigate(['../login'], { relativeTo: this.route });
                 },
                 error: error => {
                     this.alertService.error(error);
+                    this.submitting = false;
                 }
             });
     }
