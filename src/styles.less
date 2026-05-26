@@ -52,7 +52,7 @@ html, body {
   padding: 0;
   min-height: 100%;
   width: 100%;
-  background-color: var(--cyber-bg);
+  background-color: var(--cyber-bg) !important;
   color: var(--cyber-text);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
@@ -78,6 +78,32 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--cyber-text);
   font-weight: 600;
   letter-spacing: -0.02em;
+}
+
+/* --- Global Dark Mode Specific Overrides --- */
+@media (prefers-color-scheme: dark) {
+  /* Forces any generic or Bootstrap container white blocks to go dark */
+  .p-4, .container, .card, .bg-light, .bg-white, [class*="card-"] {
+    background-color: var(--cyber-surface-card) !important;
+    color: var(--cyber-text) !important;
+    border-color: var(--cyber-border) !important;
+  }
+
+  /* Fixes native table elements and row glare */
+  table, tr, td, th {
+    background-color: var(--cyber-surface-card) !important;
+    color: var(--cyber-text) !important;
+    border-color: var(--cyber-border) !important;
+  }
+
+  th {
+    background-color: var(--cyber-input) !important;
+  }
+
+  /* Soften standard texts inside the white-to-dark blocks */
+  .text-muted, p, span {
+    color: var(--cyber-muted) !important;
+  }
 }
 
 /* --- Auth Shell Layout --- */
