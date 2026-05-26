@@ -1,0 +1,71 @@
+﻿<div class="sign-in-page">
+    <div class="sign-in-hero">
+        <div class="hero-eyebrow">Welcome back.</div>
+        <h1>Good to see you.</h1>
+        <p>Sign in to your account to continue where you left off.</p>
+
+        <ul class="hero-list">
+            <li>Real-time collaboration</li>
+            <li>Secure end-to-end encryption</li>
+            <li>Access from any device</li>
+        </ul>
+    </div>
+
+    <div class="sign-in-form-panel">
+        <div class="sign-in-card">
+            <div class="sign-in-header">
+                <div>
+                    <p class="eyebrow">Sign in</p>
+                    <h2>Enter your credentials to access your account</h2>
+                </div>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger mb-4" style="color: #ffffff; background-color: #dc3545; padding: 12px; margin-bottom: 20px; border-radius: 6px; font-size: 14px; border: 1px solid #c82333;">
+                <strong style="font-weight: 600;">Error:</strong> {{ error }}
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" (input)="error = ''">
+                <div class="mb-4">
+                    <label class="form-label">Email address</label>
+                    <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                        <div *ngIf="f.email.errors.email">Email is invalid</div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                    </div>
+                </div>
+
+                <div class="form-row form-row-space mb-4">
+                    <label class="checkbox-label">
+                        <input type="checkbox" formControlName="remember" />
+                        Remember me
+                    </label>
+                    <a routerLink="../forgot-password" class="link-secondary">Forgot password?</a>
+                </div>
+
+                <button type="submit" [disabled]="submitting" class="btn btn-primary w-100 mb-3">
+                    <span *ngIf="submitting" class="spinner-border spinner-border-sm me-2"></span>
+                    Sign in
+                </button>
+
+                <div class="divider"><span>or continue with</span></div>
+
+                <button type="button" class="btn btn-outline-google w-100 mb-3">
+                    <span class="google-icon">G</span>
+                    Continue with Google
+                </button>
+
+                <p class="text-center small-light">
+                    Don’t have an account? <a routerLink="../register">Create one</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
