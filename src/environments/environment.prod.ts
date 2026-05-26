@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: ''
+    apiUrl: 'https://patigdas-ipt-2026-backend.onrender.com'
 };
